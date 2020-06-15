@@ -1,7 +1,22 @@
 library dart_json_rule_engine;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
+import 'package:dart_json_rule_engine/condition.dart';
+import 'package:dart_json_rule_engine/engine.dart';
+
+
+class RuleEngine {
+  Engine engine;
+
+  RuleEngine() {
+    this.engine = Engine();
+  }
+  void addCondition(Map<String, dynamic> map) {
+    Condition condition = Condition.fromJson(map);
+    engine.addCondition(condition);
+  }
+
+  bool run(Map<String, dynamic> fact) {
+    print(fact);
+    return engine.run(fact);
+  }
 }
