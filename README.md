@@ -1,17 +1,4 @@
-# Game 02
+# Game 03
 
-Add all operators for each supported dataType
+Multiple conditions and multiple facts.
 
-rule: {
-  "key": "version",
-  "operator": "equals",
-  "value": "20"
-}
-
-fact: {
-  "version": "20"
-}
-
-event: {
-  "name": "match"
-}
