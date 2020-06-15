@@ -14,9 +14,6 @@ void main() {
         "key": "version",
         "operator": "NOTEMPTY",
         "value": "0"
-      },
-      "event": {
-        "name": "match"
       }
     };
     engine.addCondition(condition);
