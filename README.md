@@ -1,6 +1,6 @@
-# Game 01
+# Game 02
 
-Build a simple engine that can run basic comparisons and return associated events.
+Add all operators for each supported dataType
 
 rule: {
   "key": "version",

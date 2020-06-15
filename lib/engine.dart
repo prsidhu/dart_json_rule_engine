@@ -1,7 +1,6 @@
-import 'package:dart_json_rule_engine/condition.dart';
-import 'package:dart_json_rule_engine/config/operators.dart';
-import 'package:dart_json_rule_engine/event.dart';
-import 'package:dart_json_rule_engine/fact.dart';
+import 'condition.dart';
+import 'config/operators.dart';
+import 'event.dart';
 
 const conditionError = 'Invalid condition';
 
@@ -27,6 +26,18 @@ class Engine {
         if(fact[condition.rule.key].toString().toLowerCase() == condition.rule.value.toString().toLowerCase())
           events.add(condition.event);
         break;
+      case Operators.LESSTHAN:
+        if(num.tryParse(fact[condition.rule.key]) < num.tryParse(condition.rule.value))
+          events.add(condition.event);
+        break;
+      case Operators.GREATERTHAN:
+        if(num.tryParse(fact[condition.rule.key]) > num.tryParse(condition.rule.value))
+          events.add(condition.event);
+        break;
+      case Operators.NOTEMPTY:
+        if(fact[condition.rule.key] != null && fact[condition.rule.key].toString().length > 0)
+          events.add(condition.event);
+          break;
       default:
         break;
     }

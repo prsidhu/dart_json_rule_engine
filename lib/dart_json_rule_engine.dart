@@ -3,7 +3,7 @@ library dart_json_rule_engine;
 import 'package:dart_json_rule_engine/condition.dart';
 import 'package:dart_json_rule_engine/engine.dart';
 
-/// A Calculator.
+
 class RuleEngine {
   Engine engine;
 
