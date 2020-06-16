@@ -1,6 +1,14 @@
+import 'package:dart_json_rule_engine/utils/operations/contains.dart';
+import 'package:dart_json_rule_engine/utils/operations/equals.dart';
+import 'package:dart_json_rule_engine/utils/operations/greater_than.dart';
+import 'package:dart_json_rule_engine/utils/operations/in.dart';
+import 'package:dart_json_rule_engine/utils/operations/less_than.dart';
+import 'package:dart_json_rule_engine/utils/operations/not_empty.dart';
+
 import 'condition.dart';
 import 'config/operators.dart';
 import 'event.dart';
+import 'utils/extensions/int_extension.dart';
 
 const conditionError = 'Invalid condition';
 
@@ -15,7 +23,6 @@ class Engine {
   bool run(Map<String, dynamic> facts) {
     if(conditions == null) throw Error.safeToString(conditionError);
     if(facts == null) throw Error.safeToString('Invalid facts.');
-
     if(conditions.length == 0) return true;
     if(facts.keys.length == 0) return false;
 
@@ -26,29 +33,39 @@ class Engine {
 
   List<Event> evaluate(Map<String, dynamic> facts) {
     List<Event> events = List();
-    print(conditions);
     conditions.forEach((Condition condition) { 
       if(!facts.containsKey(condition.rule.key)) facts[condition.rule.key] = null;
-      print('checking');
       switch (condition.rule.operand.toUpperCase()) {
         case Operators.EQUALS:
-          if(facts[condition.rule.key].toString().toLowerCase() == condition.rule.value.toString().toLowerCase())
-            events.add(condition.event);
+          print('operation: ==');
+          Event ev = Equals(condition, facts).operate();
+          if(ev != null) events.add(ev);
           break;
         case Operators.LESSTHAN:
-          print('less than: ${num.tryParse(facts[condition.rule.key].toString()) < num.tryParse(condition.rule.value.toString())}');
-          if(num.tryParse(facts[condition.rule.key].toString()) < num.tryParse(condition.rule.value.toString()))
-            events.add(condition.event);
+          print('operation: <');
+          Event ev = LessThan(condition, facts).operate();
+          if(ev != null) events.add(ev);
           break;
         case Operators.GREATERTHAN:
-          print('greater than: ${num.tryParse(facts[condition.rule.key].toString()) > num.tryParse(condition.rule.value.toString())}');
-          if(num.tryParse(facts[condition.rule.key].toString()) > num.tryParse(condition.rule.value.toString()))
-            events.add(condition.event);
+          print('operation: >');
+          Event ev = GreaterThan(condition, facts).operate();
+          if(ev != null) events.add(ev);
           break;
         case Operators.NOTEMPTY:
-          if(facts[condition.rule.key] != null && facts[condition.rule.key].toString().length > 0)
-            events.add(condition.event);
-            break;
+          print('operation: not empty');
+          Event ev = NotEmpty(condition, facts).operate();
+          if(ev != null) events.add(ev);
+          break;
+        case Operators.CONTAINS:
+          print('operation: contains');
+          Event ev = Contains(condition, facts).operate();
+          if(ev != null) events.add(ev);
+          break;
+        case Operators.IN:
+          print('operation: in');
+          Event ev = In(condition, facts).operate();
+          if(ev != null) events.add(ev);
+          break;
         default:
           break;
       }

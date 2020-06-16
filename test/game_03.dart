@@ -16,7 +16,7 @@ void main() {
         "rule": {
           "key": "goals",
           "operator": "greaterthan",
-          "value": "9"
+          "value": "5"
         },
         "event": {
           "name": "scorer"

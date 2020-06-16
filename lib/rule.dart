@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dart_json_rule_engine/utils/decoder.dart';
 import 'package:flutter/foundation.dart';
 
 import 'utils/validations.dart';
@@ -9,7 +10,7 @@ const errorPrefix = 'Failed to parse rule: invalid ';
 class Rule {
   String key;
   String operand;
-  String value;
+  dynamic value;
 
   Rule({
     @required this.key,
@@ -20,7 +21,7 @@ class Rule {
   factory Rule.fromJson(Map<String, dynamic> map) =>
     Rule(
       key: validateKey('key', map) ? map['key'] : throw Error.safeToString('$errorPrefix key'),
-      value: validateKey('value', map)  ? map['value'] : throw Error.safeToString('$errorPrefix value'),
+      value: validateKey('value', map)  ? decode(map['value']) : throw Error.safeToString('$errorPrefix value'),
       operand: validateKey('operator', map) ? map['operator'] : throw Error.safeToString('$errorPrefix operand')
     );
 
