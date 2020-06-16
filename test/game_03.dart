@@ -37,99 +37,99 @@ void main() {
     expect(engine.run(fact), true);
   });
 
-  // test('Multiple conditions on multiple facts', () {
-  //   final engine = RuleEngine();
+  test('Multiple conditions on multiple facts', () {
+    final engine = RuleEngine();
 
-  //   Map<String, dynamic> fact = {
-  //     'goals': 4,
-  //     'wins': 9
-  //   };
+    Map<String, dynamic> fact = {
+      'goals': 4,
+      'wins': 9
+    };
 
-  //   List<Map<String, dynamic>> conditions = [
-  //     {
-  //       "rule": {
-  //         "key": "goals",
-  //         "operator": "greaterthan",
-  //         "value": "5"
-  //       },
-  //       "event": {
-  //         "name": "scorer"
-  //       }
-  //     },
-  //     {
-  //       "rule": {
-  //         "key": "wins",
-  //         "operator": "greaterthan",
-  //         "value": "10"
-  //       },
-  //       "event": {
-  //         "name": "talisman"
-  //       }
-  //     }
-  //   ];
-  //   engine.addCondition(conditions);
-  //   expect(engine.run(fact), false);
-  // });
+    List<Map<String, dynamic>> conditions = [
+      {
+        "rule": {
+          "key": "goals",
+          "operator": "greaterthan",
+          "value": "5"
+        },
+        "event": {
+          "name": "scorer"
+        }
+      },
+      {
+        "rule": {
+          "key": "wins",
+          "operator": "greaterthan",
+          "value": "10"
+        },
+        "event": {
+          "name": "talisman"
+        }
+      }
+    ];
+    engine.addCondition(conditions);
+    expect(engine.run(fact), false);
+  });
 
-  // test('Empty facts with conditions should fail', () {
-  //   final engine = RuleEngine();
+  test('Empty facts with conditions should fail', () {
+    final engine = RuleEngine();
 
-  //   Map<String, dynamic> fact = {};
+    Map<String, dynamic> fact = {};
 
-  //   List<Map<String, dynamic>> conditions = [
-  //     {
-  //       "rule": {
-  //         "key": "goals",
-  //         "operator": "greaterthan",
-  //         "value": "5"
-  //       },
-  //       "event": {
-  //         "name": "scorer"
-  //       }
-  //     },
-  //     {
-  //       "rule": {
-  //         "key": "wins",
-  //         "operator": "greaterthan",
-  //         "value": "10"
-  //       },
-  //       "event": {
-  //         "name": "talisman"
-  //       }
-  //     }
-  //   ];
-  //   engine.addCondition(conditions);
-  //   expect(engine.run(fact), false);
-  // });
+    List<Map<String, dynamic>> conditions = [
+      {
+        "rule": {
+          "key": "goals",
+          "operator": "greaterthan",
+          "value": "5"
+        },
+        "event": {
+          "name": "scorer"
+        }
+      },
+      {
+        "rule": {
+          "key": "wins",
+          "operator": "greaterthan",
+          "value": "10"
+        },
+        "event": {
+          "name": "talisman"
+        }
+      }
+    ];
+    engine.addCondition(conditions);
+    expect(engine.run(fact), false);
+  });
 
-  // test('no conditions should pass', () {
-  //   final engine = RuleEngine();
+  test('no conditions should pass', () {
+    final engine = RuleEngine();
 
-  //   Map<String, dynamic> fact = {};
+    Map<String, dynamic> fact = {};
 
-  //   List<Map<String, dynamic>> conditions = [
-  //     {
-  //       "rule": {
-  //         "key": "goals",
-  //         "operator": "greaterthan",
-  //         "value": "5"
-  //       },
-  //       "event": {
-  //         "name": "scorer"
-  //       }
-  //     },
-  //     {
-  //       "rule": {
-  //         "key": "wins",
-  //         "operator": "greaterthan",
-  //         "value": "10"
-  //       },
-  //       "event": {
-  //         "name": "talisman"
-  //       }
-  //     }
-  //   ];
-  //   // engine.addCondition(conditions);
-  //   expect(engine.run(fact), true);
-  // });
+    List<Map<String, dynamic>> conditions = [
+      {
+        "rule": {
+          "key": "goals",
+          "operator": "greaterthan",
+          "value": "5"
+        },
+        "event": {
+          "name": "scorer"
+        }
+      },
+      {
+        "rule": {
+          "key": "wins",
+          "operator": "greaterthan",
+          "value": "10"
+        },
+        "event": {
+          "name": "talisman"
+        }
+      }
+    ];
+    // engine.addCondition(conditions);
+    expect(engine.run(fact), true);
+  });
 }

@@ -17,13 +17,7 @@ class GreaterThan extends Operation {
   bool mapOperation() => Map.from(facts[condition.rule.key]).greaterThan(Map.from(condition.rule.value));
 
   @override
-  bool numOperation() {
-    print('here');
-    print('lhs: ${num.parse(facts[condition.rule.key].toString())}');
-    print('rhs: ${num.parse(condition.rule.value.toString())}');
-    print('result: ${num.parse(facts[condition.rule.key].toString()).greaterThan(num.parse(condition.rule.value.toString()))}');
-    return num.parse(facts[condition.rule.key].toString()).greaterThan(num.parse(condition.rule.value.toString()));
-  }
+  bool numOperation() => num.parse(facts[condition.rule.key].toString()).greaterThan(num.parse(condition.rule.value.toString()));
 
   @override
   bool stringOperation() => facts[condition.rule.key].toString().greaterThan(condition.rule.value.toString());

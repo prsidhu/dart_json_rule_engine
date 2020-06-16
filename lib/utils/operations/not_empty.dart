@@ -10,15 +10,15 @@ class NotEmpty extends Operation {
   NotEmpty(Condition condition, Map<String, dynamic> facts) : super(condition, facts);
 
   @override
-  bool listOperation() => List.from(condition.rule.value).notEmpty();
+  bool listOperation() => List.from(facts[condition.rule.key]).notEmpty();
 
   @override
-  bool mapOperation() => Map.from(condition.rule.value).notEmpty();
+  bool mapOperation() => Map.from(facts[condition.rule.key]).notEmpty();
 
   @override
-  bool numOperation() => num.parse(condition.rule.value).notEmpty();
+  bool numOperation() => num.parse(facts[condition.rule.key]).notEmpty();
 
   @override
-  bool stringOperation() => condition.rule.value.toString().notEmpty();
+  bool stringOperation() => facts[condition.rule.key].toString().notEmpty();
   
 }

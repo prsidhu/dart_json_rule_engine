@@ -1,6 +1,7 @@
 import 'package:dart_json_rule_engine/utils/operations/contains.dart';
 import 'package:dart_json_rule_engine/utils/operations/equals.dart';
 import 'package:dart_json_rule_engine/utils/operations/greater_than.dart';
+import 'package:dart_json_rule_engine/utils/operations/in.dart';
 import 'package:dart_json_rule_engine/utils/operations/less_than.dart';
 import 'package:dart_json_rule_engine/utils/operations/not_empty.dart';
 
@@ -58,6 +59,11 @@ class Engine {
         case Operators.CONTAINS:
           print('operation: contains');
           Event ev = Contains(condition, facts).operate();
+          if(ev != null) events.add(ev);
+          break;
+        case Operators.IN:
+          print('operation: in');
+          Event ev = In(condition, facts).operate();
           if(ev != null) events.add(ev);
           break;
         default:

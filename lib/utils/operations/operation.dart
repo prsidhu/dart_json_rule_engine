@@ -17,7 +17,7 @@ abstract class Operation {
   Event operate() {
     try {
       print('find type');
-      print(Lexer().getType(condition.rule.value));
+      print('lexer result: ${Lexer().getType(condition.rule.value)}');
       switch (Lexer().getType(condition.rule.value)) {
         case TypeToken.STRING:
           print('string operation');
