@@ -9,7 +9,7 @@ const errorPrefix = 'Failed to parse rule: invalid ';
 class Rule {
   String key;
   String operand;
-  String value;
+  dynamic value;
 
   Rule({
     @required this.key,
