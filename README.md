@@ -1,4 +1,4 @@
-# Game 03
+# Game 04
 
-Multiple conditions and multiple facts.
+Handle multiple data types in facts: int, float, string, List, map.
 
