@@ -22,6 +22,13 @@ void main() {
           'operator': 'equals',
           'value': 'stevie'
         }
+      ],
+      'any': [
+        {
+          'key': 'leader',
+          'operator': 'in',
+          'value': 'stevie gerrad'
+        }
       ]
     };
     engine.parseCriteria(condition);

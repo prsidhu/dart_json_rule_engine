@@ -32,19 +32,13 @@ class Criteria {
         //     }
         //   });
         // }
-        print('map validated');
-        print(map.containsKey(CriteriaToken.ALL.toLowerCase()));
-        print(map.containsKey(CriteriaToken.OR.toLowerCase()));
         if(!map.containsKey(CriteriaToken.ALL.toLowerCase()) && !map.containsKey(CriteriaToken.OR.toLowerCase())) {
           throw Error.safeToString(tokenError);
         }
         map.keys.forEach((key) { 
-          print('key: $key');
-          print(map[key]);
           if(!validateList(map[key])) throw Error.safeToString(rulesError);
           List<Rule> rules = [];
           for(var item in map[key]) {
-            print(item);
             Rule rule = Rule.fromJson(item);
             rules.add(rule);
           }
