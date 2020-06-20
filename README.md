@@ -1,4 +1,4 @@
-# Game 05
+# Game 06
 
-Add criteria: all / or at a single level.
+Handle bad inputs.
 
