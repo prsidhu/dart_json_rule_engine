@@ -10,7 +10,7 @@ void main() {
       'leader': 'stevie'
     };
 
-    Map<String, dynamic> condition = {
+    Map<String, dynamic> rules = {
       'all': [
         {
           'key': 'captain',
@@ -31,6 +31,14 @@ void main() {
         }
       ]
     };
-    engine.parseCriteria(condition);
+
+    Map<String, dynamic> condition = {
+      'rule': rules,
+      'event': {
+        'name': 'huzzah!'
+      }
+    };
+    engine.addCondition(condition);
+    engine.run(facts);
   });
 }

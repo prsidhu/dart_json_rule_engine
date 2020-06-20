@@ -1,7 +1,6 @@
 library dart_json_rule_engine;
 
 import 'package:dart_json_rule_engine/condition.dart';
-import 'package:dart_json_rule_engine/criteria.dart';
 import 'package:dart_json_rule_engine/engine.dart';
 import 'package:dart_json_rule_engine/utils/validations.dart';
 
@@ -12,19 +11,15 @@ class RuleEngine {
   RuleEngine() {
     this.engine = Engine();
   }
-  void addCondition(List<Map<String, dynamic>> list) {
-    if(!validateList(list)) throw Error.safeToString('Invalid conditions.');
-    list.forEach((element) { 
-      Condition condition = Condition.fromJson(element);
-      if(condition == null) throw Error.safeToString('Invalid condition.');
+  void addCondition(Map<String, dynamic> obj) {
+    try {
+      if(!validateMap(obj)) throw Error();
+      Condition condition = Condition.fromJson(obj);
       engine.addCondition(condition);
-    });
-  }
-
-  void parseCriteria(Map<String, dynamic> obj) {
-    Criteria criteria = Criteria.fromJson(obj);
-    print(criteria);
-    print(criteria.criteria.keys.length);
+    } catch(e) {
+      print(e);
+      throw Error.safeToString('Invalid conditions.');
+    }
   }
 
   bool run(Map<String, dynamic> fact) {

@@ -1,59 +1,79 @@
-import 'dart:convert';
+import 'config/criterias.dart';
+import 'config/operators.dart';
+import 'rule.dart';
+import 'utils/operations/contains.dart';
+import 'utils/operations/equals.dart';
+import 'utils/operations/greater_than.dart';
+import 'utils/operations/in.dart';
+import 'utils/operations/less_than.dart';
+import 'utils/operations/not_empty.dart';
 
-import 'package:dart_json_rule_engine/config/criterias.dart';
-import 'package:dart_json_rule_engine/rule.dart';
-import 'package:dart_json_rule_engine/utils/validations.dart';
-
-const criteriaError = 'Failed to parse criteria';
-const tokenError = 'Invalid criteria';
-const rulesError = 'Invalid rules';
-
-class Criteria {
-  Map<String, List<Rule>> criteria;
-
-  Criteria({this.criteria});
-
-  factory Criteria.fromJson(Map<String, dynamic> map) {
-    try {
-      Map<String, List<Rule>> res = {};
-      if(validateMap(map)) {
-        ///
-        /// If input map doesn't contain any criteria at zeroth level,
-        /// then treat is as ALL
-        ///
-        // if(!map.containsKey(CriteriaToken.ALL) && !map.containsKey(CriteriaToken.OR)) {
-        //   Rule rule = Rule.fromJson(map);
-        //   res['all'] = rule;
-        // } else {
-        //   map.keys.forEach((key) { 
-        //     List list = [];
-        //     if(validateList(map[key])){
-
-        //     }
-        //   });
-        // }
-        if(!map.containsKey(CriteriaToken.ALL.toLowerCase()) && !map.containsKey(CriteriaToken.OR.toLowerCase())) {
-          throw Error.safeToString(tokenError);
-        }
-        map.keys.forEach((key) { 
-          if(!validateList(map[key])) throw Error.safeToString(rulesError);
-          List<Rule> rules = [];
-          for(var item in map[key]) {
-            Rule rule = Rule.fromJson(item);
-            rules.add(rule);
-          }
-          String token = key.toUpperCase() == CriteriaToken.ALL ? CriteriaToken.ALL : CriteriaToken.OR;
-          res[token] = rules;
-        });
-        return Criteria(
-          criteria: res
-        );
+bool evaluateCriteria(dynamic condition, Map<String, dynamic> facts) {
+  bool flag = false;
+  Map.castFrom(condition).keys.forEach((key) {
+    if(condition[key] is Map) {
+      if (key == CriteriaToken.ALL)
+        flag = processAllCriteria(condition[key], facts);
+      if (key == CriteriaToken.OR)
+        flag = processOrCriteria(condition[key], facts);
+      else {
+        Rule rule = condition[key] is Rule ? condition[key] : Rule.tryParse(condition[key]);
+        if (rule != null) flag = applyRule(rule, facts);
       }
-    } catch(e) {
-      print(e);
-      throw Error.safeToString(criteriaError);
+    } else if(condition[key] is List) {
+      for(var item in condition[key]) {
+        Rule rule = item is Rule ? item : Rule.tryParse(item);
+        if (rule != null) flag = applyRule(rule, facts);
+      }
     }
-  }
+  });
+  return flag;
+}
 
-  factory Criteria.fromRawJson(String str) => Criteria.fromJson(jsonDecode(str));
+bool processAllCriteria(List rules, Map<String, dynamic> facts) {
+  for(var rule in rules) {
+    bool res = evaluateCriteria(rule, facts);
+    if(!res) return false;
+  }
+  return true;
+}
+
+bool processOrCriteria(List rules, Map<String, dynamic> facts) {
+  for(var rule in rules) {
+    bool res = evaluateCriteria(rule, facts);
+    if(res) return true;
+  }
+  return false;
+}
+
+bool applyRule(Rule rule, Map<String, dynamic> facts) {
+  switch (rule.operand.toUpperCase()) {
+    case Operators.EQUALS:
+      print('operation: ==');
+      return Equals(rule, facts).operate();
+      break;
+    case Operators.LESSTHAN:
+      print('operation: <');
+      return LessThan(rule, facts).operate();
+      break;
+    case Operators.GREATERTHAN:
+      print('operation: >');
+      return GreaterThan(rule, facts).operate();
+      break;
+    case Operators.NOTEMPTY:
+      print('operation: not empty');
+      return NotEmpty(rule, facts).operate();
+      break;
+    case Operators.CONTAINS:
+      print('operation: contains');
+      return Contains(rule, facts).operate();
+      break;
+    case Operators.IN:
+      print('operation: in');
+      return In(rule, facts).operate();
+      break;
+    default:
+      break;
+  }
+  return false;
 }

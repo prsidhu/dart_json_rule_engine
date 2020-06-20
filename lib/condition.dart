@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:dart_json_rule_engine/event.dart';
-import 'package:dart_json_rule_engine/fact.dart';
-import 'package:dart_json_rule_engine/rule.dart';
-import 'package:dart_json_rule_engine/utils/validations.dart';
+import 'config/criterias.dart';
+import 'event.dart';
+import 'fact.dart';
+import 'rule.dart';
+import 'utils/validations.dart';
 import 'package:flutter/foundation.dart';
 
 const errorPrefix = 'Faile to parse';
@@ -20,7 +21,7 @@ class Condition {
         throw Error.safeToString('$errorPrefix condition');
       return Condition(
           event: Event.fromJson(map['event']),
-          rules: Condition.tryParse(map['rule']);
+          rules: Condition.tryParse(map['rule']));
     } catch (e) {
       print(e);
       throw Error.safeToString('$errorPrefix condition');
@@ -32,12 +33,13 @@ class Condition {
 
   static dynamic tryParse(dynamic obj, [bool flag = true]) {
     try {
+      print(obj);
       if (obj != null) {
         if (obj is Map) {
-          if (!obj.containsKey('all') && !obj.containsKey('any')) {
+          if (!obj.containsKey(CriteriaToken.ALL.toLowerCase()) && !obj.containsKey(CriteriaToken.OR.toLowerCase())) {
             Rule rule = Rule.tryParse(obj);
             if (rule == null) throw Error();
-            return flag ? {'all': List()..add(rule)} : rule;
+            return flag ? {CriteriaToken.ALL: List()..add(rule)} : rule;
           } else {
             Map res = {};
             List keys = obj.keys.toList();
