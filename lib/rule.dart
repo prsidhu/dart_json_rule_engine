@@ -26,4 +26,19 @@ class Rule {
     );
 
   factory Rule.fromRawJson(String str) => Rule.fromJson(jsonDecode(str));
+
+  factory Rule.tryParse(Map<String, dynamic> map) {
+    try {
+      if(validateMap(map)) {
+        if(!validateString(map['key']) || !validateString(map['value']) || !validateString(map['operator'])) throw Error();
+        return Rule(
+          key: map['key'],
+          operand: map['operator'],
+          value: decode(map['value'])
+        );
+      } else throw Error();
+    } catch(e) {
+      return null;
+    }
+  }
 }

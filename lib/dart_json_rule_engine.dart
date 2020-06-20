@@ -11,13 +11,15 @@ class RuleEngine {
   RuleEngine() {
     this.engine = Engine();
   }
-  void addCondition(List<Map<String, dynamic>> list) {
-    if(!validateList(list)) throw Error.safeToString('Invalid conditions.');
-    list.forEach((element) { 
-      Condition condition = Condition.fromJson(element);
-      if(condition == null) throw Error.safeToString('Invalid condition.');
+  void addCondition(Map<String, dynamic> obj) {
+    try {
+      if(!validateMap(obj)) throw Error();
+      Condition condition = Condition.fromJson(obj);
       engine.addCondition(condition);
-    });
+    } catch(e) {
+      print(e);
+      throw Error.safeToString('Invalid conditions.');
+    }
   }
 
   bool run(Map<String, dynamic> fact) {

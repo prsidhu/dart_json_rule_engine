@@ -1,4 +1,4 @@
-# Game 04
+# Game 05
 
-Handle multiple data types in facts: int, float, string, List, map.
+Add criteria: all / or at a single level.
 

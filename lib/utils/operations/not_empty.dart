@@ -1,4 +1,4 @@
-import '../../condition.dart';
+import '../../rule.dart';
 import '../extensions/list_extension.dart';
 import '../extensions/maps_extension.dart';
 import '../extensions/num_extension.dart';
@@ -7,18 +7,18 @@ import 'operation.dart';
 
 class NotEmpty extends Operation {
 
-  NotEmpty(Condition condition, Map<String, dynamic> facts) : super(condition, facts);
+  NotEmpty(Rule rule, Map<String, dynamic> facts) : super(rule, facts);
 
   @override
-  bool listOperation() => List.from(facts[condition.rule.key]).notEmpty();
+  bool listOperation() => List.from(facts[rule.key]).notEmpty();
 
   @override
-  bool mapOperation() => Map.from(facts[condition.rule.key]).notEmpty();
+  bool mapOperation() => Map.from(facts[rule.key]).notEmpty();
 
   @override
-  bool numOperation() => num.parse(facts[condition.rule.key]).notEmpty();
+  bool numOperation() => num.parse(facts[rule.key]).notEmpty();
 
   @override
-  bool stringOperation() => facts[condition.rule.key].toString().notEmpty();
+  bool stringOperation() => facts[rule.key].toString().notEmpty();
   
 }
