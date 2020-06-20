@@ -39,6 +39,6 @@ void main() {
       }
     };
     engine.addCondition(condition);
-    engine.run(facts);
+    expect(engine.run(facts), true);
   });
 }
