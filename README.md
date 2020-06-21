@@ -23,7 +23,7 @@ _Certain operations return a default boolean value. e.g. Contains on a num data 
 
 ### Example
 
-Implementations require conditions and facts (both jsons / ```Map<String, dynamic>```) to supplied to the engine, which will return a boolean value upon evaluation.
+Implementations require conditions and facts (both json / ```Map<String, dynamic>```) to be supplied to the engine, which will return a boolean value upon evaluation.
 
 ```
   Map<String, dynamic> fact_1 = {
