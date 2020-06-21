@@ -9,5 +9,6 @@ class Lexer {
       if(num.tryParse(value) != null) return TypeToken.NUM;
       return TypeToken.STRING;
     }
+    throw TypeError();
   }
 }
