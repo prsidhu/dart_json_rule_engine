@@ -11,6 +11,7 @@ class RuleEngine {
   RuleEngine() {
     this.engine = Engine();
   }
+
   void addCondition(Map<String, dynamic> obj) {
     try {
       if(!validateMap(obj)) throw Error();
@@ -23,7 +24,11 @@ class RuleEngine {
   }
 
   bool run(Map<String, dynamic> fact) {
-    print(fact);
-    return engine.run(fact);
+    try {
+      print(fact);
+      return engine.run(fact);
+    } catch(e) {
+      throw Error.safeToString(e);
+    }
   }
 }

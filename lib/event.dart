@@ -8,14 +8,12 @@ const defaultEvent = 'Unknown';
 class Event {
   String name;
 
-  Event({
-    @required this.name
-  });
+  Event({@required this.name});
 
-  factory Event.fromJson(Map<String, dynamic> map) =>
-    Event(
-      name: validateKey('name', map) ? map['name'] : defaultEvent
-    );
+  factory Event.fromJson(Map<String, dynamic> map) => Event(
+      name: validateMap(map) && validateKey('name', map)
+          ? map['name']
+          : defaultEvent);
 
   factory Event.fromRawJson(String str) => Event.fromJson(jsonDecode(str));
 }
