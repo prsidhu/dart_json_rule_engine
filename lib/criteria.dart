@@ -10,37 +10,23 @@ import 'utils/operations/not_empty.dart';
 
 int i = 0;
 
-bool evaluateCriteria(dynamic condition, Map<String, dynamic> facts) {
+bool evaluateCriteria(dynamic condition, Map<String, dynamic> facts, {String token = CriteriaToken.ALL}) {
   bool flag = true;
   print('evaluating');
   Map.castFrom(condition).keys.forEach((key) {
     customPrint(key);
-    if(condition[key] is Map) {
-      customPrint('inside MAP');
-      if (key == CriteriaToken.ALL.toLowerCase()) {
-        customPrint('Flag before ALL: $flag');
-        flag = flag && processAllCriteria(condition[key], facts);
-        customPrint('Flag after ALL: $flag');
-      }
-      if (key == CriteriaToken.OR.toLowerCase()) {
-        customPrint('Flag before OR: $flag');
-        flag = flag && processOrCriteria(condition[key], facts);
-        customPrint('Flag after OR: $flag');
-      }
-      else {
-        Rule rule = condition[key] is Rule ? condition[key] : Rule.tryParse(condition[key]);
-        if (rule != null) flag = flag && applyRule(rule, facts);
-        customPrint('direct rule: $flag');
-      }
-    } else if(condition[key] is List) {
+    if (key == CriteriaToken.ALL.toLowerCase()) {
+      customPrint('Flag before ALL: $flag');
+      flag = flag && evaluateList(condition[key], facts, token: CriteriaToken.ALL);
+      customPrint('Flag after ALL: $flag');
+    }
+    if (key == CriteriaToken.ANY.toLowerCase()) {
+      customPrint('Flag before ANY: $flag');
+      flag = flag && evaluateList(condition[key], facts, token: CriteriaToken.ANY);
+      customPrint('Flag after ANY: $flag');
+    } else if (condition[key] is List) {
       customPrint('inside LIST');
-      return evaluateList(condition[key], facts);
-      // bool res = true;
-      // for(var item in condition[key]) {
-      //   Rule rule = item is Rule ? item : Rule.tryParse(item);
-      //   if (rule != null) flag = applyRule(rule, facts);
-      //   print('flag: $flag');
-      // }
+      return evaluateList(condition[key], facts, token: token);
     }
   });
   customPrint('RESULT: $flag');
@@ -49,30 +35,43 @@ bool evaluateCriteria(dynamic condition, Map<String, dynamic> facts) {
 
 customPrint(String text) => print('$text ........${++i}');
 
-bool evaluateList(List list, Map<String, dynamic> facts) {
-  bool flag = true;
-  for(var item in list) {
-    if(item is Rule) flag = flag && applyRule(item, facts);
-    else flag = flag && evaluateCriteria(item, facts);
+bool evaluateList(List list, Map<String, dynamic> facts, {String token = CriteriaToken.ALL}) {
+  // TODO: Use && / || to update the flag as per the criteria
+  switch (token) {
+    case CriteriaToken.ALL:
+      return processAllCriteria(list, facts, token: token);
+      break;
+    case CriteriaToken.ANY:
+      return processAnyCriteria(list, facts, token: token);
+      break;
+    default:
+      print('here');
+      return false;
   }
-  customPrint('LIST FLAG: $flag');
+}
+
+bool processAllCriteria(List list, Map<String, dynamic> facts, {String token}) {
+  bool flag = true;
+  for (var item in list) {
+    if (item is Rule)
+      flag = flag && applyRule(item, facts);
+    else
+      flag = flag && evaluateCriteria(item, facts, token: token);
+  }
+  customPrint('Process ALL: $flag');
   return flag;
 }
 
-bool processAllCriteria(List rules, Map<String, dynamic> facts) {
-  for(var rule in rules) {
-    bool res = evaluateCriteria(rule, facts);
-    if(!res) return false;
+bool processAnyCriteria(List list, Map<String, dynamic> facts, {String token}) {
+  bool flag = false;
+  for (var item in list) {
+    if (item is Rule)
+      flag = flag || applyRule(item, facts);
+    else
+      flag = flag || evaluateCriteria(item, facts, token: token);
   }
-  return true;
-}
-
-bool processOrCriteria(List rules, Map<String, dynamic> facts) {
-  for(var rule in rules) {
-    bool res = evaluateCriteria(rule, facts);
-    if(res) return true;
-  }
-  return false;
+  customPrint('Process ANY: $flag');
+  return flag;
 }
 
 bool applyRule(Rule rule, Map<String, dynamic> facts) {

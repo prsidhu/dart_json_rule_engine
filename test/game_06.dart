@@ -67,12 +67,12 @@ void main() {
         {
           'key': 'captain',
           'operator': 'equals',
-          'value': 'hendo'
+          'value': 'hend'
         },
         {
           'key': 'leader',
           'operator': 'equals',
-          'value': 'stevi'
+          'value': 'stevie'
         }
       ],
       'any': [
@@ -91,14 +91,6 @@ void main() {
           'value': 'stevie G'
         }
       ]
-    };
-
-    Map<String, dynamic> rules2 = {
-      'rule': {
-          'key': 'leader',
-          'operator': 'in',
-          'value': 'stevie G'
-        }
     };
 
     Map<String, dynamic> condition = {

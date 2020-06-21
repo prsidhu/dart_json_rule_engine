@@ -37,7 +37,7 @@ class Condition {
         print('111');
         if (obj is Map) {
           print('222');
-          if (!obj.containsKey(CriteriaToken.ALL.toLowerCase()) && !obj.containsKey(CriteriaToken.OR.toLowerCase())) {
+          if (!obj.containsKey(CriteriaToken.ALL.toLowerCase()) && !obj.containsKey(CriteriaToken.ANY.toLowerCase())) {
             print('333');
             if(!validateMap(obj)) return {};
             Rule rule = Rule.tryParse(obj);
