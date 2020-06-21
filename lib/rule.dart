@@ -30,7 +30,7 @@ class Rule {
   factory Rule.tryParse(Map<String, dynamic> map) {
     try {
       if(validateMap(map)) {
-        if(!validateString(map['key']) || !validateString(map['value']) || !validateString(map['operator'])) throw Error();
+        if(!validateString(map['key']) || !validateString(map['value'].toString()) || !validateString(map['operator'])) throw Error();
         return Rule(
           key: map['key'],
           operand: map['operator'],
@@ -41,4 +41,11 @@ class Rule {
       return null;
     }
   }
+
+  @override
+  String toString() => {
+    'key': key,
+    'operator': operand,
+    'value': value
+  }.toString();
 }
