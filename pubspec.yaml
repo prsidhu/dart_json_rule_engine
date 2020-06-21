@@ -1,8 +1,7 @@
 name: dart_json_rule_engine
-description: A new Flutter package project.
+description:  Dart rule engine with support for basic Dart data types.
 version: 0.0.1
-author:
-homepage:
+homepage: https://www.google.com
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
