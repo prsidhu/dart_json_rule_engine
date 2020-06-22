@@ -15,12 +15,12 @@ bool evaluateCriteria(dynamic condition, Map<String, dynamic> facts, {String tok
   print('evaluating');
   Map.castFrom(condition).keys.forEach((key) {
     customPrint(key);
-    if (key == CriteriaToken.ALL.toLowerCase()) {
+    if (key.toString().toUpperCase() == CriteriaToken.ALL) {
       customPrint('Flag before ALL: $flag');
       flag = flag && evaluateList(condition[key], facts, token: CriteriaToken.ALL);
       customPrint('Flag after ALL: $flag');
     }
-    if (key == CriteriaToken.ANY.toLowerCase()) {
+    if (key.toString().toUpperCase() == CriteriaToken.ANY) {
       customPrint('Flag before ANY: $flag');
       flag = flag && evaluateList(condition[key], facts, token: CriteriaToken.ANY);
       customPrint('Flag after ANY: $flag');
@@ -36,7 +36,6 @@ bool evaluateCriteria(dynamic condition, Map<String, dynamic> facts, {String tok
 customPrint(String text) => print('$text ........${++i}');
 
 bool evaluateList(List list, Map<String, dynamic> facts, {String token = CriteriaToken.ALL}) {
-  // TODO: Use && / || to update the flag as per the criteria
   switch (token) {
     case CriteriaToken.ALL:
       return processAllCriteria(list, facts, token: token);
